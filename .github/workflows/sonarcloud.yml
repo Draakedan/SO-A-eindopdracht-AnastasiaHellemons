@@ -42,7 +42,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Draakedan_SO-A-eindopdracht-AnastasiaHellemons" /o:"3246t456fgbfddgfhjytu7567546456tgtfhgjy7tu8567546435trtgghjgyt7u856756325gfdhbnfgnmhgjkrhrtwere4756867hbvcfgb" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Draakedan_SO-A-eindopdracht-AnastasiaHellemons" /o:"3246t456fgbfddgfhjytu7567546456tgtfhgjy7tu8567546435trtgghjgyt7u856756325gfdhbnfgnmhgjkrhrtwere4756867hbvcfgb" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet tool install --global dotnet-coverage
           dotnet restore
           dotnet build --no-incremental
