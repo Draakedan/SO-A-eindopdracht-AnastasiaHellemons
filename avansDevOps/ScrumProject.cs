@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace avansDevOps
 {
-    public class Class1
+    public class ScrumProject
     {
-        public static string HelloWorld()
-        {
-            return "Hello, World!";
-        }
     }
 }
