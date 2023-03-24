@@ -17,7 +17,16 @@ namespace avansDevOps.Users
             EffortPoints = new();
         }
 
-        public bool CanAssingPoints(User user, string project, int points) { return false; }
+        public bool CanAssingPoints(User user, string project, int points) 
+        {
+            bool isScumMaster = false;
+            foreach(IRole role in user.Roles)
+                if (role.GetType() == typeof(ScrumMaster))
+                    isScumMaster = true;
+            if (isScumMaster)
+                AssignPoints(project, points);
+            return isScumMaster;
+        }
 
         public void AssignPoints(string project, int points)
         {
@@ -27,7 +36,16 @@ namespace avansDevOps.Users
             EffortPoints[project] += points;
         }
 
-        public bool CanRemovePoints(User user, string project, int points) { return false; }
+        public bool CanRemovePoints(User user, string project, int points) 
+        {
+            bool isScumMaster = false;
+            foreach (IRole role in user.Roles)
+                if (role.GetType() == typeof(ScrumMaster))
+                    isScumMaster = true;
+            if (isScumMaster)
+                RemovePoints(project, points);
+            return isScumMaster;
+        }
 
         public void RemovePoints(string project, int points)
         {

@@ -44,7 +44,7 @@ namespace UnitTests
         public void AnUsernameMustBeUnique()
         {
             var uniqueUser = new User("a@z.com", "unique", "pass");
-            var result = _userRepo.UserExists(uniqueUser.Name);
+            var result = _userRepo.UserIsUnique(uniqueUser.Name);
             Assert.That(result, Is.True);
         }
 
@@ -52,8 +52,8 @@ namespace UnitTests
         public void AnUserGetsAnErrorMessageWhenTheUsernameIsUsed()
         {
             var notUniqueUser = new User("a@z.com", "name", "pass");
-            var result = _userRepo.UserExists(notUniqueUser.Name);
-            Assert.That(result, Is.False);
+            var result = _userRepo.UserIsUnique(notUniqueUser.Name);
+            Assert.That(result, Is.True);
         }
     }
 }

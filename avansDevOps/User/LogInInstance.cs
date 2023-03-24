@@ -32,7 +32,7 @@ namespace avansDevOps.Users
 
         private User? ComfrimCredentials(string userName, string password)
         {
-            if (!_userRepo.UserExists(userName))
+            if (_userRepo.UserIsUnique(userName))
                 return null;
             User? user = _userRepo.GetUser(userName);
             if (user!.Password == password)

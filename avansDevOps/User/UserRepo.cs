@@ -16,20 +16,22 @@ namespace avansDevOps.Users
 
         public void Add(User user)
         {
-            if (!UserExists(user.Name))
+            if (UserIsUnique(user.Name))
                 Users.Add(user);
         }
         public User? GetUser(string Name)
         {
             foreach (User user in Users)
-                if (user.Name == Name) return user;
+                if (user.Name.Equals(Name)) return user;
             return null;
         }
-        public bool UserExists(string Name)
+        public bool UserIsUnique(string Name)
         {
+            bool unique = true;
             foreach (User user in Users)
-                if (user.Name == Name) return true;
-            return false;
+                if (user.Name.Equals(Name))
+                    unique = false;
+            return unique;
         }
     }
 }

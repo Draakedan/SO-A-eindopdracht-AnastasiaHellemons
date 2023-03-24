@@ -20,7 +20,7 @@ namespace avansDevOps.Backlog
         { 
             Name = name;
             State = new ToDoState();
-            Discussions = new();
+            Discussions = new(State);
             this.Developer = new User("", "", "");
         }
         public bool AddDeveloper(User developer) { return false; }

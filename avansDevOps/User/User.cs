@@ -11,7 +11,7 @@ namespace avansDevOps.Users
         public string Name { get; init; }
         public string Email { get; init; }
         public string Password { get; init; }
-        List<IRole> Roles { get; set; }
+        public List<IRole> Roles { get; private set; }
         List<string> Projects { get; set; }
 
         public User(string email, string name, string password)
