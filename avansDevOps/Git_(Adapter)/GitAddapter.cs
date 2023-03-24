@@ -8,17 +8,17 @@ namespace avansDevOps.Git__Adapter_
 {
     public class GitAddapter: GitInterface
     {
-        private GitCLI gitCLI { get; set; }
+        private GitCLI GitCLI { get; set; }
         public GitAddapter() { }
 
-        public void CreateRepo(string name) { }
-        public void PushCode() { }
-        public void PullCode() { }
-        public void CreateBranch(string name) { }
-        public void SwapBranch(string branch) { }
-        public void MergeBranch(string branchToMerge) { }
-        public void SolveMergeConflict() { }
-        public void AddFilesToCommit(string[] files) { }
-        public void PostCommit(string name) { }
+        public string CreateRepo(string name) { return string.Empty; }
+        public string PushCode() { return string.Empty; }
+        public string PullCode() { return string.Empty; }
+        public string CreateBranch(string name) { return string.Empty; }
+        public string SwapBranch(string branch) { return string.Empty; }
+        public string MergeBranch(string branchToMerge) { return string.Empty; }
+        public string SolveMergeConflict() { return string.Empty; }
+        public string AddFilesToCommit(string[] files) { return string.Empty; }
+        public string PostCommit(string name) { return string.Empty; }
     }
 }

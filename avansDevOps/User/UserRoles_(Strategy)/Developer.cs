@@ -11,11 +11,13 @@ namespace avansDevOps.Users
         public string Name { get; }
         private readonly Dictionary<string, int> EffortPoints;
 
-        Developer()
+        public Developer()
         {
             Name = "Developer";
             EffortPoints = new();
         }
+
+        public bool CanAssingPoints(User user, string project, int points) { return false; }
 
         public void AssignPoints(string project, int points)
         {
@@ -24,6 +26,8 @@ namespace avansDevOps.Users
 
             EffortPoints[project] += points;
         }
+
+        public bool CanRemovePoints(User user, string project, int points) { return false; }
 
         public void RemovePoints(string project, int points)
         {

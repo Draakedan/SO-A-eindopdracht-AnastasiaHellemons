@@ -8,15 +8,15 @@ namespace avansDevOps.Git__Adapter_
 {
     public interface GitInterface
     {
-        public void CreateRepo(string name);
-        public void PushCode();
-        public void PullCode();
-        public void CreateBranch(string name);
-        public void SwapBranch(string name);
-        public void MergeBranch(string branchToMerge);
-        public void SolveMergeConflict();
-        public void AddFilesToCommit(string[] files);
-        public void PostCommit(string name);
+        public string CreateRepo(string name);
+        public string PushCode();
+        public string PullCode();
+        public string CreateBranch(string name);
+        public string SwapBranch(string name);
+        public string MergeBranch(string branchToMerge);
+        public string SolveMergeConflict();
+        public string AddFilesToCommit(string[] files);
+        public string PostCommit(string name);
 
     }
 }

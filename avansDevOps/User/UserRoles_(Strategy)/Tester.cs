@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace avansDevOps.Users
 {
-    public class ProductOwner : IRole
+    public class Tester : IRole
     {
         public string Name { get; }
 
-        ProductOwner()
+        public Tester()
         {
-            Name = "Product Owner";
+            Name = "Tester";
         }
 
         public void JoinProject(string name)

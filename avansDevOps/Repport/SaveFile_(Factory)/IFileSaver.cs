@@ -8,6 +8,6 @@ namespace avansDevOps.Repport.SaveFile__Factory_
 {
     public interface IFileSaver
     {
-        public void Save();
+        public string Save();
     }
 }

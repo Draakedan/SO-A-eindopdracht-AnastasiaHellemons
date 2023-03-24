@@ -16,7 +16,8 @@ namespace avansDevOps.Users
 
         public void Add(User user)
         {
-            Users.Add(user);
+            if (!UserExists(user.Name))
+                Users.Add(user);
         }
         public User? GetUser(string Name)
         {

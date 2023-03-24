@@ -11,7 +11,7 @@ namespace avansDevOps.Users
         public User? LoggedInUser { get; set; }
         private readonly UserRepo _userRepo;
 
-        LogInInstance(UserRepo repo)
+        public LogInInstance(UserRepo repo)
         {
             _userRepo = repo;
         }

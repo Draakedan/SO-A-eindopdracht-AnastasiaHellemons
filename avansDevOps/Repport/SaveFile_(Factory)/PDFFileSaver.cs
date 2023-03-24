@@ -8,6 +8,6 @@ namespace avansDevOps.Repport.SaveFile__Factory_
 {
     public class PDFFileSaver : IFileSaver
     {
-        public void Save() { }
+        public string Save() { return string.Empty; }
     }
 }
