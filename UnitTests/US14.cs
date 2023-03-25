@@ -16,7 +16,7 @@ namespace UnitTests
         [SetUp]
         public void Setup()
         {
-            _customState = new CustomState();
+            _customState = new CustomState(new StateCount(), "name");
             _customStateRepo = new CustomStateRepo();
         }
 

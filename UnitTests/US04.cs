@@ -1,4 +1,5 @@
 ﻿using avansDevOps.Backlog;
+using avansDevOps.Backlog.TasklStates__State_;
 using avansDevOps.Users;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace UnitTests
         [SetUp]
         public void Setup()
         {
-            _subtask = new("task1");
+            _subtask = new("task1", new StateCount());
         }
 
         [Test]

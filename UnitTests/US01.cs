@@ -1,5 +1,6 @@
 using avansDevOps;
 using avansDevOps.Backlog;
+using avansDevOps.Backlog.TasklStates__State_;
 using avansDevOps.Users;
 
 namespace UnitTests
@@ -8,10 +9,12 @@ namespace UnitTests
     public class US01
     {
         private Sprint? _sprint;
+        private StateCount _stateCount;
 
         [SetUp]
         public void Setup()
         {
+            _stateCount = new StateCount();
             _sprint = new Sprint();
         }
 
@@ -31,8 +34,8 @@ namespace UnitTests
         [Test]
         public void BackLogItemsAreInPriorityOrder()
         {
-            var backlogItem1 = new BacklogItem(1, "test1");
-            var backlogItem2 = new BacklogItem(2, "test2");
+            var backlogItem1 = new BacklogItem(1, "test1", _stateCount);
+            var backlogItem2 = new BacklogItem(2, "test2", _stateCount);
 
             _sprint!.AddBacklogItem(backlogItem2);
             _sprint.AddBacklogItem(backlogItem1);
@@ -44,7 +47,7 @@ namespace UnitTests
         [Test]
         public void ABacklogItemWithNameCanBeAddedToTheList()
         {
-            var namedBacklogItem = new BacklogItem(1, "name");
+            var namedBacklogItem = new BacklogItem(1, "name", _stateCount);
 
             var result = _sprint!.AddBacklogItem(namedBacklogItem);
 
@@ -54,7 +57,7 @@ namespace UnitTests
         [Test]
         public void ABacklogItemWithoutNameCanNotBeAddedToTheList()
         {
-            var namelessBacklogItem = new BacklogItem(1, string.Empty);
+            var namelessBacklogItem = new BacklogItem(1, string.Empty, _stateCount);
 
             var result = _sprint!.AddBacklogItem(namelessBacklogItem);
 
@@ -71,7 +74,7 @@ namespace UnitTests
         [Test]
         public void ABacklogItemListCanHaveOneItem()
         {
-            var backlogItem1 = new BacklogItem(1, "test1");
+            var backlogItem1 = new BacklogItem(1, "test1", _stateCount);
 
             _sprint!.AddBacklogItem(backlogItem1);
 
@@ -82,8 +85,8 @@ namespace UnitTests
         [Test]
         public void ABacklogItemListCanHaveMultipleItems()
         {
-            var backlogItem1 = new BacklogItem(1, "test1");
-            var backlogItem2 = new BacklogItem(2, "test2");
+            var backlogItem1 = new BacklogItem(1, "test1", _stateCount);
+            var backlogItem2 = new BacklogItem(2, "test2", _stateCount);
 
             _sprint!.AddBacklogItem(backlogItem2);
             _sprint.AddBacklogItem(backlogItem1);
@@ -143,7 +146,7 @@ namespace UnitTests
         [Test]
         public void ABacklogItemHasAName()
         {
-            var backlogItem1 = new BacklogItem(1, "test1");
+            var backlogItem1 = new BacklogItem(1, "test1", _stateCount);
             var result = backlogItem1.Name;
             Assert.That(result, Is.Not.Empty);
         }

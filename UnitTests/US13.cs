@@ -19,19 +19,21 @@ namespace UnitTests
         private DoneState _state;
         private Sprint _sprint;
         private User _user;
+        private StateCount _stateCount;
         [SetUp]
         public void Setup()
         {
-            _backlog = new BacklogItem(1, "");
-            _subtask = new SubTask("");
-            _subtask2 = new SubTask("");
-            _subtask3 = new SubTask("");
-            _state = new DoneState();
+            _stateCount = new StateCount();
+            _backlog = new BacklogItem(1, "", _stateCount);
+            _subtask = new SubTask("", _stateCount);
+            _subtask2 = new SubTask("", _stateCount);
+            _subtask3 = new SubTask("", _stateCount);
+            _state = new DoneState(_stateCount);
 
-            _backlog.State = new TestedState();
-            _subtask.State = new TestedState();
-            _subtask2.State = new TestedState();
-            _subtask3.State = new TestedState();
+            _backlog.State = new TestedState(_stateCount);
+            _subtask.State = new TestedState(_stateCount);
+            _subtask2.State = new TestedState(_stateCount);
+            _subtask3.State = new TestedState(_stateCount);
 
             _backlog.AddSubtask(_subtask);
             _backlog.AddSubtask(_subtask2);
@@ -64,7 +66,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _subtask.CanChangeState(user, new DoneState());
+            var result = _subtask.CanChangeState(user, new DoneState(_stateCount));
             Assert.That(result, Is.True);
         }
 
@@ -75,7 +77,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _subtask.CanChangeState(user, new DoneState());
+            var result = _subtask.CanChangeState(user, new DoneState(_stateCount));
             Assert.That(result, Is.True);
         }
 
@@ -86,7 +88,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _subtask.CanChangeState(user, new DoneState());
+            var result = _subtask.CanChangeState(user, new DoneState(_stateCount));
             Assert.That(result, Is.True);
         }
 
@@ -97,52 +99,52 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _subtask.CanChangeState(user, new DoneState());
-            Assert.That(result, Is.True);
+            var result = _subtask.CanChangeState(user, new DoneState(_stateCount));
+            Assert.That(result, Is.False);
         }
 
         [Test]
         public void ABacklogItemOrSubtaskCanNotBePlacedInDoneFromTodo()
         {
-            _subtask.ChangeState(new ToDoState());
+            _subtask.ChangeState(new ToDoState(_stateCount));
 
-            var result = _subtask.CanChangeState(_user, new DoneState());
+            var result = _subtask.CanChangeState(_user, new DoneState(_stateCount));
             Assert.That(result, Is.False);
         }
 
         [Test]
         public void ABacklogItemOrSubtaskCanNotBePlacedInDoneFromDoing()
         {
-            _subtask.ChangeState(new DoingState());
+            _subtask.ChangeState(new DoingState(_stateCount));
 
-            var result = _subtask.CanChangeState(_user, new DoneState());
+            var result = _subtask.CanChangeState(_user, new DoneState(_stateCount));
             Assert.That(result, Is.False);
         }
 
         [Test]
         public void ABacklogItemOrSubtaskCanNotBePlacedInDoneFromReadyForTesting()
         {
-            _subtask.ChangeState(new ReadyForTestingState());
+            _subtask.ChangeState(new ReadyForTestingState(_stateCount));
 
-            var result = _subtask.CanChangeState(_user, new DoneState());
+            var result = _subtask.CanChangeState(_user, new DoneState(_stateCount));
             Assert.That(result, Is.False);
         }
 
         [Test]
         public void ABacklogItemOrSubtaskCanNotBePlacedInDoneFromTesting()
         {
-            _subtask.ChangeState(new TestingState());
+            _subtask.ChangeState(new TestingState(_stateCount));
 
-            var result = _subtask.CanChangeState(_user, new DoneState());
+            var result = _subtask.CanChangeState(_user, new DoneState(_stateCount));
             Assert.That(result, Is.False);
         }
 
         [Test]
         public void ABacklogItemOrSubtaksCanBePlacedInDoneFromTested()
         {
-           _subtask.ChangeState(new TestedState());
+           _subtask.ChangeState(new TestedState(_stateCount));
 
-            var result = _subtask.CanChangeState(_user, new DoneState());
+            var result = _subtask.CanChangeState(_user, new DoneState(_stateCount));
             Assert.That(result, Is.True);
         }
 
@@ -156,44 +158,44 @@ namespace UnitTests
         [Test]
         public void DoneCanHaveOneBacklogItemOrSubtaks()
         {
-            var result = _subtask.CanChangeState(_user, new DoneState());
+            var result = _subtask.CanChangeState(_user, new DoneState(_stateCount));
             Assert.That(result, Is.True);
         }
 
         [Test]
         public void DoneCanHaveMultipleBacklogItemsAndSubtasks()
         {
-            _subtask2.CanChangeState(_user, new DoneState());
-            var result = _subtask.CanChangeState(_user, new DoneState());
+            _subtask2.CanChangeState(_user, new DoneState(_stateCount));
+            var result = _subtask.CanChangeState(_user, new DoneState(_stateCount));
             Assert.That(result, Is.True);
         }
 
         [Test]
         public void ABacklogItemWithSubtasksCanNotPlacedInDoneWhenNoSubtasksAreInDone()
         {
-            _subtask.CanChangeState(_user, new DoingState());
-            _subtask2.CanChangeState(_user, new DoingState());
-            _subtask3.CanChangeState(_user, new DoingState());
-            var result = _backlog.CanChangeState(_user, new DoneState());
+            _subtask.CanChangeState(_user, new DoingState(_stateCount));
+            _subtask2.CanChangeState(_user, new DoingState(_stateCount));
+            _subtask3.CanChangeState(_user, new DoingState(_stateCount));
+            var result = _backlog.CanChangeState(_user, new DoneState(_stateCount));
             Assert.That(result, Is.False);
         }
 
         [Test]
         public void ABacklogItemWithSubtasksCanNotBePlacedInDoneIfNotAllSubtasksAreInDone()
         {
-            _subtask2.CanChangeState(_user, new DoingState());
-            _subtask3.CanChangeState(_user, new DoneState());
-            var result = _backlog.CanChangeState(_user, new DoneState());
+            _subtask2.CanChangeState(_user, new DoingState(_stateCount));
+            _subtask3.CanChangeState(_user, new DoneState(_stateCount));
+            var result = _backlog.CanChangeState(_user, new DoneState(_stateCount));
             Assert.That(result, Is.False);
         }
 
         [Test]
         public void ABacklogItemWithSubtasksCanBePlacedInDoneWhenAllSubtasksAreInDone()
         {
-            _subtask.CanChangeState(_user, new DoneState());
-            _subtask2.CanChangeState(_user, new DoneState());
-            _subtask3.CanChangeState(_user, new DoneState());
-            var result = _backlog.CanChangeState(_user, new DoneState());
+            _subtask.CanChangeState(_user, new DoneState(_stateCount));
+            _subtask2.CanChangeState(_user, new DoneState(_stateCount));
+            _subtask3.CanChangeState(_user, new DoneState(_stateCount));
+            var result = _backlog.CanChangeState(_user, new DoneState(_stateCount));
             Assert.That(result, Is.True);
         }
     }

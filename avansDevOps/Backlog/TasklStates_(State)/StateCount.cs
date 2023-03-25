@@ -10,10 +10,31 @@ namespace avansDevOps.Backlog.TasklStates__State_
     {
         private readonly Dictionary<string, int> ItemsPerState;
 
-        public void IncreaseStateCount(string state) { }
-        public void DecreaseStateCount(string state) { }
-        public int GetStateCount(string state) { return -1; }
-        private void LoadStateCount() { }
-        private void SaveStateCount() { }
+        public StateCount()
+        {
+            ItemsPerState = new()
+            {
+                { typeof(ToDoState).ToString(), 0 },
+                { typeof(DoingState).ToString(), 0 },
+                { typeof(ReadyForTestingState).ToString(), 0 },
+                { typeof(TestingState).ToString(), 0 },
+                { typeof(TestedState).ToString(), 0 },
+                { typeof(DoneState).ToString(), 0 },
+                { typeof(CustomState).ToString(), 0 }
+            };
+        }
+
+        public void IncreaseStateCount(string state)
+        {
+            ItemsPerState[state] += 1;
+        }
+        public void DecreaseStateCount(string state)
+        {
+            ItemsPerState[state] -= 1;
+        }
+        public int GetStateCount(string state)
+        {
+            return ItemsPerState[state];
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using avansDevOps;
 using avansDevOps.Backlog;
+using avansDevOps.Backlog.TasklStates__State_;
 using avansDevOps.Users;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace UnitTests
     public class US08
     {
         private Sprint _sprint;
+        private StateCount _stateCount;
 
         [SetUp]
         public void Setup()
         {
+            _stateCount = new StateCount();
             _sprint = new();
             _sprint.EditSprint(DateTime.Now.AddDays(-3), DateTime.Now.AddDays(3), "");
         }
@@ -71,7 +74,7 @@ namespace UnitTests
         [Test]
         public void AfterTheStartOfASprintBacklogItemsCanNotBeAdded()
         {
-            var backlogItem = new BacklogItem(2, "");
+            var backlogItem = new BacklogItem(2, "", _stateCount);
             var result = _sprint.AddBacklogItem(backlogItem);
 
             Assert.That(result, Is.False);
@@ -80,7 +83,7 @@ namespace UnitTests
         [Test]
         public void AfterTheStartOfASprintSubtasksCanNotBeAdded()
         {
-            var backlogItem = new SubTask("");
+            var backlogItem = new SubTask("", _stateCount);
             var result = _sprint.AddBacklogItem(backlogItem);
 
             Assert.That(result, Is.False);

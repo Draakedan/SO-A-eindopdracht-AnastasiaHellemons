@@ -1,5 +1,6 @@
 ﻿using avansDevOps;
 using avansDevOps.Backlog;
+using avansDevOps.Backlog.TasklStates__State_;
 using avansDevOps.Users;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,10 +9,12 @@ namespace UnitTests
     public class US02
     {
         public BacklogItem _backlogItem;
+        public StateCount _stateCount;
         [SetUp]
         public void Setup()
         {
-            _backlogItem = new(1, "DemoItem");
+            _stateCount = new StateCount();
+            _backlogItem = new(1, "DemoItem", _stateCount);
         }
 
         [Test]

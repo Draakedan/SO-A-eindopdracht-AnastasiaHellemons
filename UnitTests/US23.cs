@@ -11,18 +11,18 @@ namespace UnitTests
 {
     public class US23
     {
+        private StateCount _stateCount;
         private Response _response;
         private DiscussionThread _thread;
-        private BackLogDiscussionForum _forum;
         private User _user;
         [SetUp]
         public void Setup()
         {
+            _stateCount = new StateCount();
             _user = new User("", "", "");
             _user.AddRole(new Developer());
-            _forum = new BackLogDiscussionForum(new TestedState());
-            _response = new Response(new TestedState(), "", _user, false);
-            _thread = new DiscussionThread(new TestedState(), "testTopic", _user, _response);
+            _response = new Response(new TestedState(_stateCount), "", _user, false);
+            _thread = new DiscussionThread(new TestedState(_stateCount), "testTopic", _user, _response);
         }
 
         [Test]

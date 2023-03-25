@@ -22,7 +22,15 @@ namespace avansDevOps.Users
 
             Roles = new();
             Projects = new();
+        }
 
+        public bool HasRole(string role)
+        {
+            bool hasRole = false;
+            foreach (IRole r in Roles)
+                if (r.GetType().ToString() == role)
+                    hasRole = true;
+            return hasRole;
         }
         public void AddRole(IRole role)
         {

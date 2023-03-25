@@ -13,9 +13,11 @@ namespace UnitTests
     public class US05
     {
         public Sprint _sprint;
+        public StateCount _stateCount;
         [SetUp]
         public void Setup()
         {
+            _stateCount = new StateCount();
             _sprint = new();
         }
 
@@ -66,7 +68,7 @@ namespace UnitTests
         [Test]
         public void ASubtaskCanBeAddedToASprint()
         {
-            var subtask = new SubTask("");
+            var subtask = new SubTask("", new StateCount());
             var result = _sprint.AddBacklogItem(subtask);
             Assert.Equals(true, result);
         }
@@ -74,8 +76,8 @@ namespace UnitTests
         [Test]
         public void ABacklogItemWithSubtasksCanNotBeAddedToTheSprintIfNoSubtasksAreAddedToTheSprint()
         {
-            var backlogItem = new BacklogItem(1, "");
-            var subtask = new SubTask("");
+            var backlogItem = new BacklogItem(1, "", _stateCount);
+            var subtask = new SubTask("", _stateCount);
             backlogItem.AddSubtask(subtask);
 
             var result = _sprint.AddBacklogItem(backlogItem);
@@ -90,9 +92,9 @@ namespace UnitTests
             user1.AddRole(developer);
             _sprint.AddDeveloper(user1);
 
-            var backlogItem = new BacklogItem(1, "");
-            var subtask1 = new SubTask("");
-            var subtask2 = new SubTask("");
+            var backlogItem = new BacklogItem(1, "", _stateCount);
+            var subtask1 = new SubTask("", _stateCount);
+            var subtask2 = new SubTask("", _stateCount);
             backlogItem.AddSubtask(subtask1);
             backlogItem.AddSubtask(subtask2);
 
@@ -118,8 +120,8 @@ namespace UnitTests
             _sprint.AddDeveloper(user2);
             _sprint.AddDeveloper(user3);
 
-            var item1 = new BacklogItem(1, "");
-            var item2 = new BacklogItem(2, "");
+            var item1 = new BacklogItem(1, "", _stateCount);
+            var item2 = new BacklogItem(2, "", _stateCount);
 
             _sprint.AddBacklogItem(item1);
             _sprint.AddBacklogItem(item2);
@@ -143,9 +145,9 @@ namespace UnitTests
             _sprint.AddDeveloper(user2);
             _sprint.AddDeveloper(user3);
 
-            var item1 = new BacklogItem(1, "");
-            var item2 = new BacklogItem(2, "");
-            var item3 = new BacklogItem(3, "");
+            var item1 = new BacklogItem(1, "", _stateCount);
+            var item2 = new BacklogItem(2, "", _stateCount);
+            var item3 = new BacklogItem(3, "", _stateCount);
 
             _sprint.AddBacklogItem(item1);
             _sprint.AddBacklogItem(item2);
@@ -170,10 +172,10 @@ namespace UnitTests
             _sprint.AddDeveloper(user2);
             _sprint.AddDeveloper(user3);
 
-            var item1 = new BacklogItem(1, "");
-            var item2 = new BacklogItem(2, "");
-            var item3 = new BacklogItem(3, "");
-            var item4 = new BacklogItem(4, "");
+            var item1 = new BacklogItem(1, "", _stateCount);
+            var item2 = new BacklogItem(2, "", _stateCount);
+            var item3 = new BacklogItem(3, "", _stateCount);
+            var item4 = new BacklogItem(4, "", _stateCount);
 
             _sprint.AddBacklogItem(item1);
             _sprint.AddBacklogItem(item2);
@@ -187,7 +189,7 @@ namespace UnitTests
         [Test]
         public void ABacklogItemCanBeRemovedFromASprint()
         {
-            var item = new BacklogItem(1, "");
+            var item = new BacklogItem(1, "", _stateCount);
 
             _sprint.AddBacklogItem(item);
             var before = _sprint.ViewBacklog();
@@ -201,7 +203,7 @@ namespace UnitTests
         [Test]
         public void ASubtaskCanBeRemovedFromASprint()
         {
-            var item = new SubTask("");
+            var item = new SubTask("", _stateCount);
 
             _sprint.AddBacklogItem(item);
             var before = _sprint.ViewBacklog();
@@ -223,8 +225,8 @@ namespace UnitTests
         [Test]
         public void BacklogItemsAndSubtasksStartInToDoWhenTheSprintStarts()
         {
-            var todo = new ToDoState();
-            var subtasks = new SubTask("");
+            var todo = new ToDoState(_stateCount);
+            var subtasks = new SubTask("", _stateCount);
             Assert.That(todo, Is.EqualTo(subtasks.State));
         }
     }

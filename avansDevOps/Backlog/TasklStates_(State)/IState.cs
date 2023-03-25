@@ -1,4 +1,5 @@
-﻿using System;
+﻿using avansDevOps.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,15 +11,15 @@ namespace avansDevOps.Backlog.TasklStates__State_
     {
         int MaxItems { get; }
         int MinItems { get; }
-        StateCount counter { get; }
+        StateCount Counter { get; }
 
-        void ChangeStateToToDo();
-        void ChangeStateToDoing();
-        void ChangeStateToReadyForTesting();
-        void ChangeStateToTesting();
-        void ChangeStateToTested();
-        void ChangeStateToDone();
-        void ChangeStateToCustom();
-        bool CheckStateCount();
+        bool ChangeStateToToDo(User user);
+        bool ChangeStateToDoing(User user, int items);
+        bool ChangeStateToReadyForTesting(User user);
+        bool ChangeStateToTesting(User user, int items);
+        bool ChangeStateToTested(User user);
+        bool ChangeStateToDone(User user);
+        bool ChangeStateToCustom(User user, CustomState state);
+        void ChangeStateCount(string state);
     }
 }

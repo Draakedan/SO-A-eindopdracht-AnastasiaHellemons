@@ -53,7 +53,7 @@ namespace UnitTests
         {
             var notUniqueUser = new User("a@z.com", "name", "pass");
             var result = _userRepo.UserIsUnique(notUniqueUser.Name);
-            Assert.That(result, Is.True);
+            Assert.That(result, Is.False);
         }
     }
 }

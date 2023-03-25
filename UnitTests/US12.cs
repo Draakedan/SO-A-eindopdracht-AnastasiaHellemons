@@ -14,19 +14,21 @@ namespace UnitTests
         private TestedState _state;
         private Sprint _sprint;
         private User _user;
+        private StateCount _stateCount;
         [SetUp]
         public void Setup()
         {
-            _backlog = new BacklogItem(1, "");
-            _subtask = new SubTask("");
-            _subtask2 = new SubTask("");
-            _subtask3 = new SubTask("");
-            _state = new TestedState();
+            _stateCount = new StateCount();
+            _backlog = new BacklogItem(1, "", _stateCount);
+            _subtask = new SubTask("", _stateCount);
+            _subtask2 = new SubTask("", _stateCount);
+            _subtask3 = new SubTask("", _stateCount);
+            _state = new TestedState(_stateCount);
 
-            _backlog.State = new TestingState();
-            _subtask.State = new TestingState();
-            _subtask2.State = new TestingState();
-            _subtask3.State = new TestingState();
+            _backlog.State = new TestingState(_stateCount);
+            _subtask.State = new TestingState(_stateCount);
+            _subtask2.State = new TestingState(_stateCount);
+            _subtask3.State = new TestingState(_stateCount);
 
             _backlog.AddSubtask(_subtask);
             _backlog.AddSubtask(_subtask2);
@@ -59,7 +61,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _subtask.CanChangeState(user, new TestedState());
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.True);
         }
 
@@ -70,7 +72,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _subtask.CanChangeState(user, new TestedState());
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.False);
         }
 
@@ -81,7 +83,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _subtask.CanChangeState(user, new TestedState());
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.False);
         }
 
@@ -92,7 +94,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _subtask.CanChangeState(user, new TestedState());
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.False);
         }
 
@@ -102,9 +104,9 @@ namespace UnitTests
             var role = new Tester();
             var user = new User("", "", "");
             user.AddRole(role);
-            _subtask.ChangeState(new ToDoState());
+            _subtask.ChangeState(new ToDoState(_stateCount));
 
-            var result = _subtask.CanChangeState(user, new TestedState());
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.False);
         }
 
@@ -114,9 +116,9 @@ namespace UnitTests
             var role = new Tester();
             var user = new User("", "", "");
             user.AddRole(role);
-            _subtask.ChangeState(new DoingState());
+            _subtask.ChangeState(new DoingState(_stateCount));
 
-            var result = _subtask.CanChangeState(user, new TestedState());
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.False);
         }
 
@@ -126,9 +128,9 @@ namespace UnitTests
             var role = new Tester();
             var user = new User("", "", "");
             user.AddRole(role);
-            _subtask.ChangeState(new ReadyForTestingState());
+            _subtask.ChangeState(new ReadyForTestingState(_stateCount));
 
-            var result = _subtask.CanChangeState(user, new TestedState());
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.False);
         }
 
@@ -138,9 +140,9 @@ namespace UnitTests
             var role = new Tester();
             var user = new User("", "", "");
             user.AddRole(role);
-            _subtask.ChangeState(new TestingState());
+            _subtask.ChangeState(new TestingState(_stateCount));
 
-            var result = _subtask.CanChangeState(user, new TestedState());
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.True);
         }
 
@@ -150,9 +152,9 @@ namespace UnitTests
             var role = new Tester();
             var user = new User("", "", "");
             user.AddRole(role);
-            _subtask.ChangeState(new DoneState());
+            _subtask.ChangeState(new DoneState(_stateCount));
 
-            var result = _subtask.CanChangeState(user, new TestedState());
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.False);
         }
 
@@ -170,7 +172,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _subtask.CanChangeState(user, new TestedState());
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.True);
         }
 
@@ -181,8 +183,8 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            _subtask2.CanChangeState(user, new TestedState());
-            var result = _subtask.CanChangeState(user, new TestedState());
+            _subtask2.CanChangeState(user, new TestedState(_stateCount));
+            var result = _subtask.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.True);
         }
 
@@ -192,11 +194,11 @@ namespace UnitTests
             var role = new Tester();
             var user = new User("", "", "");
             user.AddRole(role);
-            _subtask.ChangeState(new DoneState());
-            _subtask3.ChangeState(new DoneState());
+            _subtask.ChangeState(new DoneState(_stateCount));
+            _subtask3.ChangeState(new DoneState(_stateCount));
 
-            _subtask2.CanChangeState(user, new TestedState());
-            var result = _backlog.CanChangeState(user, new TestedState());
+            _subtask2.CanChangeState(user, new TestedState(_stateCount));
+            var result = _backlog.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.True);
         }
 
@@ -206,11 +208,11 @@ namespace UnitTests
             var role = new Tester();
             var user = new User("", "", "");
             user.AddRole(role);
-            _subtask.ChangeState(new DoneState());
-            _subtask3.ChangeState(new TestingState());
+            _subtask.ChangeState(new DoneState(_stateCount));
+            _subtask3.ChangeState(new TestingState(_stateCount));
 
-            _subtask2.CanChangeState(user, new TestedState());
-            var result = _backlog.CanChangeState(user, new TestedState());
+            _subtask2.CanChangeState(user, new TestedState(_stateCount));
+            var result = _backlog.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.False);
         }
 
@@ -221,7 +223,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _backlog.CanChangeState(user, new TestedState());
+            var result = _backlog.CanChangeState(user, new TestedState(_stateCount));
             Assert.That(result, Is.False);
         }
 

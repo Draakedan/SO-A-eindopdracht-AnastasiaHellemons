@@ -11,6 +11,7 @@ namespace UnitTests
 {
     public class US21
     {
+        private StateCount _stateCount;
         private Response _response;
         private DiscussionThread _thread;
         private BackLogDiscussionForum _forum;
@@ -18,11 +19,12 @@ namespace UnitTests
         [SetUp]
         public void Setup()
         {
+            _stateCount = new StateCount();
             _user = new User("", "", "");
             _user.AddRole(new Developer());
-            _forum = new BackLogDiscussionForum(new TestedState());
-            _response = new Response(new TestedState(), "", _user, true);
-            _thread = new DiscussionThread(new TestedState(), "testTopic", _user, _response);
+            _forum = new BackLogDiscussionForum(new TestedState(_stateCount));
+            _response = new Response(new TestedState(_stateCount), "", _user, true);
+            _thread = new DiscussionThread(new TestedState(_stateCount), "testTopic", _user, _response);
         }
 
         [Test]
@@ -113,7 +115,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            _forum.UpdateState(new DoneState());
+            _forum.UpdateState(new DoneState(_stateCount));
             var result = _forum.CanAddDiscussionThread(user, _thread);
             Assert.That(result, Is.False);
         }
@@ -155,7 +157,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            _response.ChangeState(new DoneState());
+            _response.ChangeState(new DoneState(_stateCount));
             var result = _response.CanEdit(user, "");
             Assert.That(result, Is.True);
         }
