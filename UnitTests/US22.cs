@@ -13,16 +13,27 @@ namespace UnitTests
     {
         private StateCount _stateCount;
         private Response _response;
+        private Response _response2;
         private DiscussionThread _thread;
         private User _user;
         [SetUp]
         public void Setup()
         {
             _stateCount = new StateCount();
-            _user = new User("", "", "");
+            _user = new User("", "t", "");
             _user.AddRole(new Developer());
             _response = new Response(new TestedState(_stateCount), "", _user, true);
             _thread = new DiscussionThread(new TestedState(_stateCount), "testTopic", _user, _response);
+            _response2 = new Response(new TestedState(_stateCount), "2", _user, false);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _stateCount = null;
+            _user = null;
+            _response = null;
+            _thread = null;
         }
 
         [Test]
@@ -72,7 +83,7 @@ namespace UnitTests
         [Test]
         public void AReplyCanBeDeletedWhenTheBacklogItemOrSubtaskIsNotInDone()
         {
-            var result = _thread.CanDeleteResponse(_user, _response);
+            var result = _thread.CanDeleteResponse(_user, _response2);
             Assert.That(result, Is.True);
         }
 

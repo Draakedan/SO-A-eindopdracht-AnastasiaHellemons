@@ -19,7 +19,7 @@ namespace UnitTests
         public void Setup()
         {
             _stateCount = new StateCount();
-            _user = new User("", "", "");
+            _user = new User("", "t", "");
             _user.AddRole(new Developer());
             _response = new Response(new TestedState(_stateCount), "", _user, false);
             _thread = new DiscussionThread(new TestedState(_stateCount), "testTopic", _user, _response);
@@ -54,7 +54,7 @@ namespace UnitTests
         public void AnotherUserOtherThanThePosterOfAReplyCanNotDeleteTheReply()
         {
             var role = new Tester();
-            var user = new User("", "", "");
+            var user = new User("", "u", "");
             user.AddRole(role);
 
             var result = _thread.CanDeleteResponse(user, _response);

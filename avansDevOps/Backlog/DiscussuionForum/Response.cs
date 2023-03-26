@@ -1,4 +1,5 @@
 ﻿using avansDevOps.Backlog.TasklStates__State_;
+using avansDevOps.NotificationService__Observer_;
 using avansDevOps.Users;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace avansDevOps.Backlog.DiscussuionForum
     public class Response
     {
         private IState State { get; set; }
+#pragma warning disable IDE0052 // Remove unread private members
         private string Content { get; set; }
-        private User Poster { get; set; }
-        private bool FirstPost { get; set; }
+#pragma warning restore IDE0052 // Remove unread private members
+        public User Poster { get; init; }
+        public bool FirstPost { get; init; }
 
         public Response(IState state, string content, User poster, bool firstPost)
         {
@@ -22,10 +25,26 @@ namespace avansDevOps.Backlog.DiscussuionForum
             Poster = poster;
             FirstPost = firstPost;
         }
-        public void ChangeState(IState state) { }
-        public void Edit(string newContente) { }
-        public void EditState(IState state) { }
-        public void SendMessage(string message) { }
-        public bool CanEdit(User user, string newContent) { return false; }
+        public void ChangeState(IState state)
+        {
+            this.State = state;
+        }
+        public void Edit(string newContent) 
+        {
+            this.Content = newContent;
+        }
+
+        public void EditState(IState state) 
+        {
+            this.State = state;
+        }
+
+        public bool CanEdit(User user, string newContent) 
+        {
+
+            bool canEdit = user.Name.Equals(this.Poster.Name) && State.GetType() != typeof(DoneState);
+            if (canEdit) Edit(newContent);
+            return canEdit; 
+        }
     }
 }
