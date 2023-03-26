@@ -34,7 +34,9 @@ namespace UnitTests
         public void TheApplicationCanPullCode()
         {
             var result = _git.PullCode();
-            Assert.That(result, Is.EqualTo("Pulled Code!"));
+            var expect = "Pulled Code!";
+            var res2 = result.Equals(expect);
+            Assert.That(res2, Is.True);
         }
 
         [Test]
@@ -68,8 +70,15 @@ namespace UnitTests
         [Test]
         public void TheApplicationCanAddFilesToAGitCommit()
         {
-            var result = _git.AddFilesToCommit(new List<string>() { "", ""}.ToArray());
-            Assert.That(result, Is.EqualTo("Added Files!"));
+            var result = _git.AddFilesToCommit(new List<string>() { "a", "b"}.ToArray());
+            Assert.That(result, Is.EqualTo("Added Files a, b, "));
+        }
+
+        [Test]
+        public void TheApplicationCanPostAGitCommit()
+        {
+            var result = _git.PostCommit("test");
+            Assert.That(result, Is.EqualTo("Posted test"));
         }
 
     }

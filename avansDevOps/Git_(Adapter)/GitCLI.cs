@@ -9,14 +9,41 @@ namespace avansDevOps.Git__Adapter_
     public class GitCLI
     {
         public GitCLI() { }
-        public string GitCreateRepo(string name) { return string.Empty; }
-        public string GitPushCode() { return string.Empty; }
-        public string GitPullCOde() { return string.Empty; }
-        public string GitCreateBranch(string name) { return string.Empty; }
-        public string GitSwapBranch(string name) { return string.Empty; }
-        public string GitMergeBranch(string branchA, string branchB) { return string.Empty; }
-        public string GitSolveMergeConflict() { return string.Empty; }
-        public string GitAddFilesToCommit(string files) { return string.Empty; }
-        public string GitPostCommit(string name) { return string.Empty; }
+        public static string GitCreateRepo(string name)
+        {
+            return "New repo: " + name;
+        }
+        public string GitPushCode()
+        {
+            return "Pushed Code!";
+        }
+        public string GitPullCode()
+        {
+            return "Pulled Code!";
+        }
+        public string GitCreateBranch(string name)
+        {
+            return "New Branch: " + name;
+        }
+        public string GitSwapBranch(string name)
+        {
+            return "Sawp Branch: " + name;
+        }
+        public string GitMergeBranch(string branchA)
+        {
+            return "Merge Branch: " + branchA;
+        }
+        public string GitSolveMergeConflict()
+        {
+            return "Merge conflict solved!";
+        }
+        public string GitAddFilesToCommit(string files) 
+        {
+            return "Added Files " + files; 
+        }
+        public string GitPostCommit(string name) 
+        {
+            return "Posted " + name; 
+        }
     }
 }
