@@ -8,12 +8,24 @@ namespace avansDevOps.Repport.RepportGenerate__builder_
 {
     public class FooterRepportGenerator : IRepportExtraGenerator
     {
-        public void BuildCompanyName() { }
+        public string BuildCompanyName()
+        {
+            return "footer: company name";
+        }
 
-        public void BuildDate() { }
+        public string BuildDate()
+        {
+            return "footer: date";
+        }
 
-        public void BuildProjectName() { }
+        public string BuildProjectName()
+        {
+            return "footer: project name";
+        }
 
-        public void BuildSprintVersion() { }
+        public string BuildSprintVersion()
+        {
+            return "footer: version number";
+        }
     }
 }

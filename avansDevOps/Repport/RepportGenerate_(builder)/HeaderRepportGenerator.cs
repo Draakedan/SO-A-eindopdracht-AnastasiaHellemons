@@ -8,12 +8,24 @@ namespace avansDevOps.Repport.RepportGenerate__builder_
 {
     public class HeaderRepportGenerator : IRepportExtraGenerator
     {
-        public void BuildCompanyName() { }
+        public string BuildCompanyName()
+        {
+            return "header: company name";
+        }
 
-        public void BuildDate() { }
+        public string BuildDate()
+        {
+            return "header: date";
+        }
 
-        public void BuildProjectName() { }
+        public string BuildProjectName()
+        {
+            return "header: project name";
+        }
 
-        public void BuildSprintVersion() { }
+        public string BuildSprintVersion()
+        {
+            return "header: version number";
+        }
     }
 }
