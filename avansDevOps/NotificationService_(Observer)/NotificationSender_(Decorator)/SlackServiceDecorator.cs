@@ -8,9 +8,14 @@ namespace avansDevOps.NotificationService__Observer_.NotificationSender__Decorat
 {
     public class SlackServiceDecorator : MessageServiceDecorator
     {
+        private Message Wrappee { get; set; } 
         public SlackServiceDecorator(Message wrappee) : base(wrappee)
         {
+            this.Wrappee = wrappee;
         }
-        public string Send(string message) { return string.Empty; }
+        public string Send() 
+        {
+            return "slack: " + this.Wrappee.Send(); 
+        }
     }
 }

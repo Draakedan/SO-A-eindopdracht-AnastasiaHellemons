@@ -1,4 +1,5 @@
-﻿using System;
+﻿using avansDevOps.Backlog.TasklStates__State_;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,14 @@ namespace avansDevOps.NotificationService__Observer_.NotificationSender__Decorat
 {
     public class Message : IMessage
     {
-        public string Send(string message) { return string.Empty; }
+        public string MessageToSend { get; private set; }
+        public Message(string message) 
+        {
+            this.MessageToSend = message;
+        }
+        public string Send() 
+        {
+            return MessageToSend; 
+        }
     }
 }

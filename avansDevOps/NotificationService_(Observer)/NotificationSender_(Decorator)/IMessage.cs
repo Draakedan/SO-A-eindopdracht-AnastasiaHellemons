@@ -8,6 +8,7 @@ namespace avansDevOps.NotificationService__Observer_.NotificationSender__Decorat
 {
     public interface IMessage
     {
-        string Send(string message);
+        string MessageToSend { get; }
+        string Send();
     }
 }

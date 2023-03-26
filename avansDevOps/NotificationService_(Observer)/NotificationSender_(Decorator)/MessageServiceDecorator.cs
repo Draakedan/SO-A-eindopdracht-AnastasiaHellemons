@@ -9,8 +9,16 @@ namespace avansDevOps.NotificationService__Observer_.NotificationSender__Decorat
     public class MessageServiceDecorator : IMessage
     {
         private Message wrappee { get; set; }
+        public string MessageToSend { get; set; }
 
-        public MessageServiceDecorator(Message wrappee) { }
-        public string Send(string message) { return string.Empty; }
+        public MessageServiceDecorator(Message wrappee)
+        {
+            this.MessageToSend = wrappee.MessageToSend;
+            this.wrappee = wrappee;
+        }
+        public string Send()
+        {
+            return "decorated" + wrappee.Send();
+        }
     }
 }

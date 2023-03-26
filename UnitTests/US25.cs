@@ -15,15 +15,15 @@ namespace UnitTests
         public void Setup()
         {
             _publisher = new MessagePublisher();
-            _reciever = new MessageReciever();
-            _publisher.subscribe(_reciever);
+            _reciever = new MessageReciever("test");
+            _publisher.Subscribe(_reciever);
         }
 
         [Test]
         public void AUserCanGetAMessageThrougSlack()
         {
             _publisher.NotifySubscriber("test", "slack");
-            var result = _reciever.mesage;
+            var result = _reciever.Message;
             Assert.That(result, Is.EqualTo("slack: test"));
         }
 
@@ -31,7 +31,7 @@ namespace UnitTests
         public void AUserCanGetAMessageThrougEmail()
         {
             _publisher.NotifySubscriber("test", "email");
-            var result = _reciever.mesage;
+            var result = _reciever.Message;
             Assert.That(result, Is.EqualTo("email: test"));
         }
 
@@ -39,7 +39,7 @@ namespace UnitTests
         public void AUserCanGetAMessageThroughBothEmailAndSlack()
         {
             _publisher.NotifySubscriber("test", "slack email");
-            var result = _reciever.mesage;
+            var result = _reciever.Message;
             Assert.That(result, Is.EqualTo("slack: test\nemail: test"));
         }
 

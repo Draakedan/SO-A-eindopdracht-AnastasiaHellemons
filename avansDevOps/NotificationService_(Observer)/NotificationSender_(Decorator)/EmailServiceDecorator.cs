@@ -8,10 +8,15 @@ namespace avansDevOps.NotificationService__Observer_.NotificationSender__Decorat
 {
     public class EmailServiceDecorator : MessageServiceDecorator
     {
+        private Message Wrappee { get; set; }
         public EmailServiceDecorator(Message wrappee) : base(wrappee)
         {
+            this.Wrappee = wrappee;
         }
 
-        public string Send(string message) { return string.Empty; }
+        public string Send() 
+        {
+            return "email: " + this.Wrappee.Send(); 
+        }
     }
 }
