@@ -9,6 +9,12 @@ namespace avansDevOps.DevelopmentPipeline__facade_
     public class Building
     {
         public Building() { }
-        public string Build(bool succeed) { return string.Empty; }
+        public string Build(bool succeed) 
+        {
+            string s = "";
+            if (succeed)
+                s = "building: pass";
+            return s;
+        }
     }
 }

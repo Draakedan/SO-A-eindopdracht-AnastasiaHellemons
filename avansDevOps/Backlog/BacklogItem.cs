@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace avansDevOps.Backlog
 {
-    public class BacklogItem : IBacklogItem
+    public class BacklogItem : IComparable<BacklogItem>, IBacklogItem
     {
         private int PriorityNo { get; set; }
         public string Name { get; set; }
@@ -39,6 +39,15 @@ namespace avansDevOps.Backlog
             return canAdd;
         }
 
+        public bool HasSubtasks()
+        {
+            return this.SubTasks.Count == 0;
+        }
+
+        public List<SubTask> getSubtasks()
+        {
+            return this.SubTasks;
+        }
         public string GetSubtasks() 
         {
             string tasks = "";
@@ -294,6 +303,11 @@ namespace avansDevOps.Backlog
             }
             if (canChangeState) ChangeState(state);
             return canChangeState;
+        }
+
+        public int CompareTo(BacklogItem other)
+        {
+            return this.PriorityNo - other.PriorityNo;
         }
     }
 }

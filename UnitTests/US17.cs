@@ -103,7 +103,7 @@ namespace UnitTests
         [Test]
         public void TheScrumMasterCanRetryThePipelineWhenThePipelineFails()
         {
-            var role = new Developer();
+            var role = new ScrumMaster();
             var user = new User("", "", "");
             user.AddRole(role);
 

@@ -37,8 +37,8 @@ namespace UnitTests
         public void ASubtasksDoesCanNotHaveMultipleDevelopers()
         {
             var developer = new Developer();
-            var user1 = new User("", "", "");
-            var user2 = new User("", "", "");
+            var user1 = new User("", "t", "");
+            var user2 = new User("", "q", "");
             user1.AddRole(developer);
             user2.AddRole(developer);
 

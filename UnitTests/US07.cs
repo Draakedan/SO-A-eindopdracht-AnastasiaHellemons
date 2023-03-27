@@ -21,15 +21,23 @@ namespace UnitTests
         [Test]
         public void TheStartDateOfASprintCanBeEdited()
         {
-            _sprint.EditSprint(DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), "testSprint");
-            var result = _sprint.StartDate;
-            Assert.That(result, Is.EqualTo(DateTime.Now.AddDays(1)));
+            var user = new User("", "", "");
+            var role = new ScrumMaster();
+            user.AddRole(role);
+
+            _sprint.EditSprint(user, DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), "testSprint");
+            var result = _sprint.StartDate.ToShortDateString();
+            Assert.That(result, Is.EqualTo(DateTime.Now.AddDays(1).ToShortDateString()));
         }
 
         [Test]
         public void TheNameOfASprintCanBeEdited()
         {
-            _sprint.EditSprint(DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), "testSprint");
+            var user = new User("", "", "");
+            var role = new ScrumMaster();
+            user.AddRole(role);
+
+            _sprint.EditSprint(user, DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), "testSprint");
             var result = _sprint.Name;
             Assert.That(result, Is.EqualTo("testSprint"));
         }
@@ -37,9 +45,13 @@ namespace UnitTests
         [Test]
         public void TheEndDateOfASprintCanBeEdited()
         {
-            _sprint.EditSprint(DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), "testSprint");
-            var result = _sprint.EndDate;
-            Assert.That(result, Is.EqualTo(DateTime.Now.AddDays(2)));
+            var user = new User("", "", "");
+            var role = new ScrumMaster();
+            user.AddRole(role);
+
+            _sprint.EditSprint(user, DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), "testSprint");
+            var result = _sprint.EndDate.ToShortDateString();
+            Assert.That(result, Is.EqualTo(DateTime.Now.AddDays(2).ToShortDateString()));
         }
 
         [Test]
@@ -49,7 +61,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _sprint.CanEditSprint(user);
+            var result = _sprint.EditSprint(user, DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), "testSprint");
 
             Assert.That(result, Is.True);
 
@@ -62,7 +74,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _sprint.CanEditSprint(user);
+            var result = _sprint.EditSprint(user, DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), "testSprint");
 
             Assert.That(result, Is.False);
         }
@@ -74,7 +86,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _sprint.CanEditSprint(user);
+            var result = _sprint.EditSprint(user, DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), "testSprint");
 
             Assert.That(result, Is.False);
         }
@@ -86,7 +98,7 @@ namespace UnitTests
             var user = new User("", "", "");
             user.AddRole(role);
 
-            var result = _sprint.CanEditSprint(user);
+            var result = _sprint.EditSprint(user, DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), "testSprint");
 
             Assert.That(result, Is.False);
         }

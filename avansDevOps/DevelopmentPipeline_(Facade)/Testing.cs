@@ -9,6 +9,11 @@ namespace avansDevOps.DevelopmentPipeline__facade_
     public class Testing
     {
         public Testing() { }
-        public string Test(bool succeed) { return string.Empty; }
+        public string Test(bool succeed) {
+            string s = "";
+            if (succeed)
+                s = "testing: pass";
+            return s; 
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using avansDevOps;
+using avansDevOps.Backlog;
+using avansDevOps.Backlog.TasklStates__State_;
 using avansDevOps.Users;
 using System;
 using System.Collections.Generic;
@@ -87,9 +89,14 @@ namespace UnitTests
         [Test]
         public void TheStartDateCanNotBeEarlierThanToday()
         {
-            var startDate = new DateTime().AddDays(-1);
-            var endDate = new DateTime().AddDays(100);
-            var result = _sprint.EditSprint(startDate, endDate, "");
+            var startDate = DateTime.Now.AddDays(-1);
+            var endDate = DateTime.Now.AddDays(100);
+
+            var role = new ProductOwner();
+            var user = new User("", "", "");
+            user.AddRole(role);
+
+            var result = _sprint.EditSprint(user, startDate, endDate, "");
 
             Assert.That(result, Is.False);
         }
@@ -97,9 +104,13 @@ namespace UnitTests
         [Test]
         public void TheStartDateCanNotBeAfterTheEndDate()
         {
-            var startDate = new DateTime().AddDays(101);
-            var endDate = new DateTime().AddDays(100);
-            var result = _sprint.EditSprint(startDate, endDate, "");
+            var startDate = DateTime.Now.AddDays(101);
+            var endDate = DateTime.Now.AddDays(100);
+            var role = new ProductOwner();
+            var user = new User("", "", "");
+            user.AddRole(role);
+
+            var result = _sprint.EditSprint(user, startDate, endDate, "");
 
             Assert.That(result, Is.False);
         }
@@ -107,9 +118,13 @@ namespace UnitTests
         [Test]
         public void TheEndDateCanNotBeBeforeToday()
         {
-            var startDate = new DateTime().AddDays(-100);
-            var endDate = new DateTime().AddDays(-1);
-            var result = _sprint.EditSprint(startDate, endDate, "");
+            var startDate = DateTime.Now.AddDays(-10);
+            var endDate = DateTime.Now.AddDays(-1);
+            var role = new ProductOwner();
+            var user = new User("", "", "");
+            user.AddRole(role);
+
+            var result = _sprint.EditSprint(user, startDate, endDate, "");
 
             Assert.That(result, Is.False);
         }
@@ -117,9 +132,13 @@ namespace UnitTests
         [Test]
         public void TheStartDateCanNotBeToday()
         {
-            var startDate = new DateTime();
-            var endDate = new DateTime().AddDays(100);
-            var result = _sprint.EditSprint(startDate, endDate, "");
+            var startDate = DateTime.Now;
+            var endDate = DateTime.Now.AddDays(100);
+            var role = new ProductOwner();
+            var user = new User("", "", "");
+            user.AddRole(role);
+
+            var result = _sprint.EditSprint(user, startDate, endDate, "");
 
             Assert.That(result, Is.False);
         }
@@ -127,9 +146,13 @@ namespace UnitTests
         [Test]
         public void TheStartDateCanNotBeOnTheSameDayAsTheEndDate()
         {
-            var startDate = new DateTime().AddDays(1);
-            var endDate = new DateTime().AddDays(1);
-            var result = _sprint.EditSprint(startDate, endDate, "");
+            var startDate = DateTime.Now.AddDays(1);
+            var endDate = DateTime.Now.AddDays(1);
+            var role = new ProductOwner();
+            var user = new User("", "", "");
+            user.AddRole(role);
+
+            var result = _sprint.EditSprint(user, startDate, endDate, "");
 
             Assert.That(result, Is.False);
         }
@@ -137,29 +160,13 @@ namespace UnitTests
         [Test]
         public void TheEndDateCanNotBeToday()
         {
-            var startDate = new DateTime().AddDays(10);
-            var endDate = new DateTime();
-            var result = _sprint.EditSprint(startDate, endDate, "");
+            var startDate = DateTime.Now.AddDays(10);
+            var endDate = DateTime.Now;
+            var role = new ProductOwner();
+            var user = new User("", "", "");
+            user.AddRole(role);
 
-            Assert.That(result, Is.False);
-        }
-
-        [Test]
-        public void TheStartDateCanNotBeAnInvalidDate()
-        {
-            var startDate = new DateTime(2025, 2, 30);
-            var endDate = new DateTime().AddDays(100);
-            var result = _sprint.EditSprint(startDate, endDate, "");
-
-            Assert.That(result, Is.False);
-        }
-
-        [Test]
-        public void TheEndDateCanNotBeAnInvalidDate()
-        {
-            var startDate = new DateTime();
-            var endDate = new DateTime(2025, 2, 30);
-            var result = _sprint.EditSprint(startDate, endDate, "");
+            var result = _sprint.EditSprint(user, startDate, endDate, "");
 
             Assert.That(result, Is.False);
         }
@@ -167,11 +174,15 @@ namespace UnitTests
         [Test]
         public void TheEndDateCanBeAValidDateAfterTheStartDateAndAfterToday()
         {
-            var startDate = new DateTime(1);
-            var endDate = new DateTime(11);
-            var result = _sprint.EditSprint(startDate, endDate, "");
+            var startDate = DateTime.Now.AddDays(1);
+            var endDate = DateTime.Now.AddDays(11);
+            var role = new ScrumMaster();
+            var user = new User("", "", "");
+            user.AddRole(role);
 
-            Assert.That(result, Is.False);
+            var result = _sprint.EditSprint(user, startDate, endDate, "");
+
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -301,7 +312,7 @@ namespace UnitTests
             var user2 = new User("", "", "");
             user1.AddRole(scrumMaster);
             user2.AddRole(developer);
-
+            
             var result = _sprint.CanRemoveDeveloper(user1, user2);
 
             Assert.That(result, Is.True);
@@ -436,6 +447,13 @@ namespace UnitTests
             _sprint.AddTester(user);
             _sprint.AddDeveloper(dev1);
 
+            var backlog = new BacklogItem(1, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog);
+            var backlog2 = new BacklogItem(2, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog2);
+            var backlog3 = new BacklogItem(3, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog3);
+
             var result = _sprint.CanSprintStart();
 
             Assert.That(result, Is.True);
@@ -446,6 +464,12 @@ namespace UnitTests
         {
             var tester = new Tester();
             var developer = new Developer();
+            var backlog = new BacklogItem(1, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog);
+            var backlog2 = new BacklogItem(2, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog2);
+            var backlog3 = new BacklogItem(3, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog3);
 
             var dev1 = new User("", "", "");
             var dev2 = new User("", "", "");
@@ -493,6 +517,13 @@ namespace UnitTests
             _sprint.AddDeveloper(user);
             _sprint.AddTester(test1);
 
+            var backlog = new BacklogItem(1, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog);
+            var backlog2 = new BacklogItem(2, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog2);
+            var backlog3 = new BacklogItem(3, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog3);
+
             var result = _sprint.CanSprintStart();
 
             Assert.That(result, Is.True);
@@ -503,6 +534,13 @@ namespace UnitTests
         {
             var tester = new Tester();
             var developer = new Developer();
+
+            var backlog = new BacklogItem(1, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog);
+            var backlog2 = new BacklogItem(2, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog2);
+            var backlog3 = new BacklogItem(3, "i", new StateCount());
+            _sprint.AddBacklogItem(backlog3);
 
             var test1 = new User("", "", "");
             var test2 = new User("", "", "");

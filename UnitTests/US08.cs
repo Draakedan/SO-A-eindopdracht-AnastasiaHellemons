@@ -20,7 +20,12 @@ namespace UnitTests
         {
             _stateCount = new StateCount();
             _sprint = new();
-            _sprint.EditSprint(DateTime.Now.AddDays(-3), DateTime.Now.AddDays(3), "");
+            _sprint.StartDate = DateTime.Now.AddDays(-3);
+            var role = new ProductOwner();
+            var user = new User("", "", "");
+            user.AddRole(role);
+
+            var result = _sprint.EditSprint(user, DateTime.Now.AddDays(-3), DateTime.Now.AddDays(3), "");
         }
 
         [Test]

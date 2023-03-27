@@ -9,6 +9,12 @@ namespace avansDevOps.DevelopmentPipeline__facade_
     public class Deployment
     {
         public Deployment() { }
-        public string Deploy(bool succeed) {return string.Empty; }
+        public string Deploy(bool succeed) 
+        {
+            string s = "";
+            if (succeed)
+                s = "deploy: pass";
+            return s;
+        }
     }
 }

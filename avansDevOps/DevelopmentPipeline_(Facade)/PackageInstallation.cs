@@ -10,6 +10,12 @@ namespace avansDevOps.DevelopmentPipeline__facade_
     public class PackageInstallation
     {
         public PackageInstallation() { }
-        public string Install(bool succeed) {return string.Empty;}
+        public string Install(bool succeed)
+        {
+            string s = "";
+            if (succeed)
+                s = "installation: pass";
+            return s;
+        }
     }
 }

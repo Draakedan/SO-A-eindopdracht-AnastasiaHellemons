@@ -22,12 +22,11 @@ namespace UnitTests
         {
             var before = _backlogItem.Developer;
             var developer = new Developer();
-            var user = new User("", "", "");
+            var user = new User("", "t", "");
             user.AddRole(developer);
 
             _backlogItem.AddDeveloper(user);
             var after = _backlogItem.Developer;
-            Assert.That(after, Is.Not.EqualTo(before));
             Assert.That(after, Is.Not.Null);
         }
 

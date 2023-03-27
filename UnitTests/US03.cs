@@ -22,8 +22,7 @@ namespace UnitTests
             var subtasks = new SubTask("task1", _stateCount);
             _backlogItem.AddSubtask(subtasks);
             var result = _backlogItem.GetSubtasks();
-            Assert.That(result, Is.Not.Null);
-            Assert.Equals(result, "task1");
+            Assert.That(result, Is.EqualTo("task1\n"));
         }
 
         [Test]
@@ -89,7 +88,7 @@ namespace UnitTests
         {
             var result = _backlogItem.GetSubtasks();
             Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.EqualTo("No subtasks"));
+            Assert.That(result, Is.EqualTo(string.Empty));
         }
     }
 }

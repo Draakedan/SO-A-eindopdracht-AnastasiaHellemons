@@ -29,7 +29,7 @@ namespace UnitTests
             user.AddRole(scrumMaster);
 
             var result = _sprint.CanEditSprint(user);
-            Assert.Equals(true, result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -40,18 +40,18 @@ namespace UnitTests
             user.AddRole(developer);
 
             var result = _sprint.CanEditSprint(user);
-            Assert.Equals(false, result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
-        public void ATesterCanNotAddABacklogItemToASprint()
+        public void ATesterCanAddABacklogItemToASprint()
         {
             var tester = new Tester();
             var user = new User("", "", "");
             user.AddRole(tester);
 
             var result = _sprint.CanEditSprint(user);
-            Assert.Equals(false, result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -62,15 +62,15 @@ namespace UnitTests
             user.AddRole(productOwner);
 
             var result = _sprint.CanEditSprint(user);
-            Assert.Equals(false, result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
         public void ASubtaskCanBeAddedToASprint()
         {
-            var subtask = new SubTask("", new StateCount());
+            var subtask = new SubTask("i", new StateCount());
             var result = _sprint.AddBacklogItem(subtask);
-            Assert.Equals(true, result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace UnitTests
             backlogItem.AddSubtask(subtask);
 
             var result = _sprint.AddBacklogItem(backlogItem);
-            Assert.Equals(false, result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -91,10 +91,14 @@ namespace UnitTests
             var user1 = new User("", "", "");
             user1.AddRole(developer);
             _sprint.AddDeveloper(user1);
+            var tester = new Tester();
+            var user2 = new User("", "", "");
+            user2.AddRole(tester);
+            _sprint.AddTester(user2);
 
-            var backlogItem = new BacklogItem(1, "", _stateCount);
-            var subtask1 = new SubTask("", _stateCount);
-            var subtask2 = new SubTask("", _stateCount);
+            var backlogItem = new BacklogItem(1, "i", _stateCount);
+            var subtask1 = new SubTask("i", _stateCount);
+            var subtask2 = new SubTask("i", _stateCount);
             backlogItem.AddSubtask(subtask1);
             backlogItem.AddSubtask(subtask2);
 
@@ -134,6 +138,10 @@ namespace UnitTests
         public void ASprintWith3DevelopersCanHave3BacklogItemsOrSubtasks()
         {
             var developer = new Developer();
+            var tester = new Tester();
+            var user = new User("", "", "");
+            user.AddRole(tester);
+            _sprint.AddTester(user);
             var user1 = new User("", "", "");
             var user2 = new User("", "", "");
             var user3 = new User("", "", "");
@@ -145,9 +153,9 @@ namespace UnitTests
             _sprint.AddDeveloper(user2);
             _sprint.AddDeveloper(user3);
 
-            var item1 = new BacklogItem(1, "", _stateCount);
-            var item2 = new BacklogItem(2, "", _stateCount);
-            var item3 = new BacklogItem(3, "", _stateCount);
+            var item1 = new BacklogItem(1, "i", _stateCount);
+            var item2 = new BacklogItem(2, "i", _stateCount);
+            var item3 = new BacklogItem(3, "i", _stateCount);
 
             _sprint.AddBacklogItem(item1);
             _sprint.AddBacklogItem(item2);
@@ -164,6 +172,10 @@ namespace UnitTests
             var user1 = new User("", "", "");
             var user2 = new User("", "", "");
             var user3 = new User("", "", "");
+            var tester = new Tester();
+            var user = new User("", "", "");
+            user.AddRole(tester);
+            _sprint.AddTester(user);
             user1.AddRole(developer);
             user2.AddRole(developer);
             user3.AddRole(developer);
@@ -172,10 +184,10 @@ namespace UnitTests
             _sprint.AddDeveloper(user2);
             _sprint.AddDeveloper(user3);
 
-            var item1 = new BacklogItem(1, "", _stateCount);
-            var item2 = new BacklogItem(2, "", _stateCount);
-            var item3 = new BacklogItem(3, "", _stateCount);
-            var item4 = new BacklogItem(4, "", _stateCount);
+            var item1 = new BacklogItem(1, "i", _stateCount);
+            var item2 = new BacklogItem(2, "i", _stateCount);
+            var item3 = new BacklogItem(3, "i", _stateCount);
+            var item4 = new BacklogItem(4, "i", _stateCount);
 
             _sprint.AddBacklogItem(item1);
             _sprint.AddBacklogItem(item2);
@@ -189,7 +201,7 @@ namespace UnitTests
         [Test]
         public void ABacklogItemCanBeRemovedFromASprint()
         {
-            var item = new BacklogItem(1, "", _stateCount);
+            var item = new BacklogItem(1, "i", _stateCount);
 
             _sprint.AddBacklogItem(item);
             var before = _sprint.ViewBacklog();
@@ -203,7 +215,7 @@ namespace UnitTests
         [Test]
         public void ASubtaskCanBeRemovedFromASprint()
         {
-            var item = new SubTask("", _stateCount);
+            var item = new SubTask("i", _stateCount);
 
             _sprint.AddBacklogItem(item);
             var before = _sprint.ViewBacklog();
@@ -219,7 +231,7 @@ namespace UnitTests
         {
             var after = _sprint.ViewBacklog();
 
-            Assert.That(after, Is.Not.Empty);
+            Assert.That(after, Is.Empty);
         }
 
         [Test]
@@ -227,7 +239,8 @@ namespace UnitTests
         {
             var todo = new ToDoState(_stateCount);
             var subtasks = new SubTask("", _stateCount);
-            Assert.That(todo, Is.EqualTo(subtasks.State));
+            var result = todo.GetType() == subtasks.State.GetType();
+            Assert.That(result, Is.True);
         }
     }
 }

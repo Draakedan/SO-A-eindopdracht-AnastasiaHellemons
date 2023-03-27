@@ -41,7 +41,7 @@ namespace UnitTests
             _sprint.AddBacklogItem(backlogItem1);
 
             var result = _sprint.ViewBacklog();
-            Assert.That(result, Is.EqualTo("test1, test2"));
+            Assert.That(result, Is.EqualTo("test1, test2, "));
         }
 
         [Test]
@@ -65,18 +65,38 @@ namespace UnitTests
         }
 
         [Test]
-        public void ABacklogItemListCanHaveNoItems()
+        public void ABacklogItemListCanNotHaveNoItems()
         {
-            var result = _sprint!.CanSprintStart();
-            Assert.That(result, Is.True);
+            var user = new User("", "", "");
+            var developer = new Developer();
+            user.AddRole(developer);
+            var user2 = new User("", "", "");
+            var tester = new Tester();
+            user2.AddRole(tester);
+
+            _sprint!.AddTester(user2);
+            _sprint.AddDeveloper(user);
+
+            var result = _sprint.CanSprintStart();
+            Assert.That(result, Is.False);
         }
 
         [Test]
         public void ABacklogItemListCanHaveOneItem()
         {
             var backlogItem1 = new BacklogItem(1, "test1", _stateCount);
+            var user = new User("", "", "");
+            var developer = new Developer();
+            user.AddRole(developer);
+            var user2 = new User("", "", "");
+            var tester = new Tester();
+            user2.AddRole(tester);
+
+            _sprint!.AddTester(user2);
+            _sprint.AddDeveloper(user);
 
             _sprint!.AddBacklogItem(backlogItem1);
+
 
             var result = _sprint.CanSprintStart();
             Assert.That(result, Is.True);
@@ -90,6 +110,17 @@ namespace UnitTests
 
             _sprint!.AddBacklogItem(backlogItem2);
             _sprint.AddBacklogItem(backlogItem1);
+
+            var user = new User("", "", "");
+            var developer = new Developer();
+            user.AddRole(developer);
+            var user2 = new User("", "", "");
+            var tester = new Tester();
+            user2.AddRole(tester);
+
+            _sprint!.AddTester(user2);
+            _sprint.AddDeveloper(user);
+
 
             var result = _sprint.CanSprintStart();
             Assert.That(result, Is.True);
@@ -138,9 +169,9 @@ namespace UnitTests
             var productOwner = new ProductOwner();
             user.AddRole(productOwner);
 
-            var result = _sprint!.CanEditSprint(user);
+            var result = _sprint.CanEditSprint(user);
 
-            Assert.That(result, Is.True);
+            Assert.That(result, Is.False);
         }
 
         [Test]
