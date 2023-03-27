@@ -13,10 +13,6 @@ namespace TestProject1
         [Test]
         public void Test1()
         {
-            var result = Class1.HelloWorld();
-
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result, Is.EqualTo("Hello, World!"));
         }
     }
 }

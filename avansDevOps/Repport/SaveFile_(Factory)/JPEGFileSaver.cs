@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace avansDevOps
+namespace avansDevOps.Repport.SaveFile__Factory_
 {
-    public class Class1
+    public class JPEGFileSaver : IFileSaver
     {
-        public static string HelloWorld()
+        public string Save()
         {
-            return "Hello, World!";
+            return "JPEG:";
         }
     }
 }
