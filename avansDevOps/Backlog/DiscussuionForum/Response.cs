@@ -12,9 +12,9 @@ namespace avansDevOps.Backlog.DiscussuionForum
     public class Response
     {
         private IState State { get; set; }
-#pragma warning disable IDE0052 // Remove unread private members
+
         private string Content { get; set; }
-#pragma warning restore IDE0052 // Remove unread private members
+
         public User Poster { get; init; }
         public bool FirstPost { get; init; }
 
@@ -32,11 +32,6 @@ namespace avansDevOps.Backlog.DiscussuionForum
         public void Edit(string newContent) 
         {
             this.Content = newContent;
-        }
-
-        public void EditState(IState state) 
-        {
-            this.State = state;
         }
 
         public bool CanEdit(User user, string newContent) 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UnitTests
 {
-    public class US33
+    public class US30
     {
         private UserRepo _userRepo;
         private User _user;

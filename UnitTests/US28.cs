@@ -1,4 +1,5 @@
-﻿using avansDevOps.Git__Adapter_;
+﻿using avansDevOps;
+using avansDevOps.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,77 +10,22 @@ namespace UnitTests
 {
     public class US28
     {
-        private GitHandler _git;
+        private ScrumProject _project;
         [SetUp]
         public void Setup()
         {
-            _git = new GitHandler();
+            _project = new ScrumProject();
         }
 
         [Test]
-        public void TheApplicationCanCreateAGitRepo()
+        public void TheScrumMasterCanLinkASprintToAScrumProject()
         {
-            var result = _git.CreateRepo("test");
-            Assert.That(result, Is.EqualTo("New repo: test"));
-        }
+            var role = new ScrumMaster();
+            var user = new User("", "", "");
+            user.AddRole(role);
 
-        [Test]
-        public void TheApplicationCanPushCode()
-        {
-            var result = _git.PushCode();
-            Assert.That(result, Is.EqualTo("Pushed Code!"));
+            var result = _project.CanCreateSprint(user);
+            Assert.That(result, Is.True);
         }
-
-        [Test]
-        public void TheApplicationCanPullCode()
-        {
-            var result = _git.PullCode();
-            var expect = "Pulled Code!";
-            var res2 = result.Equals(expect);
-            Assert.That(res2, Is.True);
-        }
-
-        [Test]
-        public void TheApplicationCanCreateBranches()
-        {
-            var result = _git.CreateBranch("test");
-            Assert.That(result, Is.EqualTo("New Branch: test"));
-        }
-
-        [Test]
-        public void TheApplicationCanSwapBranches()
-        {
-            var result = _git.SwapBranch("test");
-            Assert.That(result, Is.EqualTo("Sawp Branch: test"));
-        }
-
-        [Test]
-        public void TheApplicationCanMergeBranches()
-        {
-            var result = _git.MergeBranch("test");
-            Assert.That(result, Is.EqualTo("Merge Branch: test"));
-        }
-
-        [Test]
-        public void TheApplicationCanSolveMergeConflicts()
-        {
-            var result = _git.SolveMergeConflict();
-            Assert.That(result, Is.EqualTo("Merge conflict solved!"));
-        }
-
-        [Test]
-        public void TheApplicationCanAddFilesToAGitCommit()
-        {
-            var result = _git.AddFilesToCommit(new List<string>() { "a", "b"}.ToArray());
-            Assert.That(result, Is.EqualTo("Added Files a, b, "));
-        }
-
-        [Test]
-        public void TheApplicationCanPostAGitCommit()
-        {
-            var result = _git.PostCommit("test");
-            Assert.That(result, Is.EqualTo("Posted test"));
-        }
-
     }
 }

@@ -12,7 +12,7 @@ namespace avansDevOps.Users
         public string Email { get; init; }
         public string Password { get; init; }
         public List<IRole> Roles { get; private set; }
-        List<string> Projects { get; set; }
+        private List<string> Projects { get; set; }
 
         public User(string email, string name, string password)
         {

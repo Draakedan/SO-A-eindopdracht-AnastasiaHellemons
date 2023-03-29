@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UnitTests
 {
-    public class US32
+    public class US29
     {
         private LogInInstance _logInInstance;
         [SetUp]

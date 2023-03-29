@@ -1,4 +1,4 @@
-﻿using avansDevOps.Users;
+﻿using avansDevOps.Git__Adapter_;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,111 +9,76 @@ namespace UnitTests
 {
     public class US27
     {
-        private Developer _developer;
+        private GitHandler _git;
         [SetUp]
         public void Setup()
         {
-            _developer = new Developer();
+            _git = new GitHandler();
         }
 
         [Test]
-        public void TheScrumMasterCanLinkEffortPointsToADeveloper()
+        public void TheApplicationCanCreateAGitRepo()
         {
-            var role = new ScrumMaster();
-            var user = new User("","","");
-            user.AddRole(role);
-
-            var result = _developer.CanAssingPoints(user, "", 3);
-            Assert.That(result, Is.True);
+            var result = _git.CreateRepo("test");
+            Assert.That(result, Is.EqualTo("New repo: test"));
         }
 
         [Test]
-        public void ADeveloperCanGainEffortPoint()
+        public void TheApplicationCanPushCode()
         {
-            var role = new ScrumMaster();
-            var user = new User("", "", "");
-            user.AddRole(role);
-
-            _developer.CanAssingPoints(user, "", 3);
-            var result = _developer.ViewPoints("");
-            Assert.That(result, Is.EqualTo(3));
+            var result = _git.PushCode();
+            Assert.That(result, Is.EqualTo("Pushed Code!"));
         }
 
         [Test]
-        public void ATesterCanNotLinkEffortPointsToADeveloper()
+        public void TheApplicationCanPullCode()
         {
-            var role = new Tester();
-            var user = new User("", "", "");
-            user.AddRole(role);
-
-            var result = _developer.CanAssingPoints(user, "", 3);
-            Assert.That(result, Is.False);
+            var result = _git.PullCode();
+            var expect = "Pulled Code!";
+            var res2 = result.Equals(expect);
+            Assert.That(res2, Is.True);
         }
 
         [Test]
-        public void ADeveloperCanNotLinkEffortPointsToOtherDevelopers()
+        public void TheApplicationCanCreateBranches()
         {
-            var role = new Developer();
-            var user = new User("", "", "");
-            user.AddRole(role);
-
-            var result = _developer.CanAssingPoints(user, "", 3);
-            Assert.That(result, Is.False);
+            var result = _git.CreateBranch("test");
+            Assert.That(result, Is.EqualTo("New Branch: test"));
         }
 
         [Test]
-        public void AProductOwnerCanNotLinkEffortPointsToADeveloper()
+        public void TheApplicationCanSwapBranches()
         {
-            var role = new ProductOwner();
-            var user = new User("", "", "");
-            user.AddRole(role);
-
-            var result = _developer.CanAssingPoints(user, "", 3);
-            Assert.That(result, Is.False);
+            var result = _git.SwapBranch("test");
+            Assert.That(result, Is.EqualTo("Sawp Branch: test"));
         }
 
         [Test]
-        public void TheScrumMasterCanRemoveEffortPointsFromADeveloper()
+        public void TheApplicationCanMergeBranches()
         {
-            var role = new ScrumMaster();
-            var user = new User("", "", "");
-            user.AddRole(role);
-
-            var result = _developer.CanRemovePoints(user, "", 3);
-            Assert.That(result, Is.True);
+            var result = _git.MergeBranch("test");
+            Assert.That(result, Is.EqualTo("Merge Branch: test"));
         }
 
         [Test]
-        public void ATesterCanNotRemoveEffortPointsFromADeveloper()
+        public void TheApplicationCanSolveMergeConflicts()
         {
-            var role = new Tester();
-            var user = new User("", "", "");
-            user.AddRole(role);
-
-            var result = _developer.CanRemovePoints(user, "", 3);
-            Assert.That(result, Is.False);
+            var result = _git.SolveMergeConflict();
+            Assert.That(result, Is.EqualTo("Merge conflict solved!"));
         }
 
         [Test]
-        public void ADeveloperCanNotRemoveEffortPointsFromADeveloper()
+        public void TheApplicationCanAddFilesToAGitCommit()
         {
-            var role = new Developer();
-            var user = new User("", "", "");
-            user.AddRole(role);
-
-            var result = _developer.CanRemovePoints(user, "", 3);
-            Assert.That(result, Is.False);
+            var result = _git.AddFilesToCommit(new List<string>() { "a", "b"}.ToArray());
+            Assert.That(result, Is.EqualTo("Added Files a, b, "));
         }
 
         [Test]
-        public void AProductOwnerCanNotRemoveEffortPointsFromADeveloper()
+        public void TheApplicationCanPostAGitCommit()
         {
-            var role = new ProductOwner();
-            var user = new User("", "", "");
-            user.AddRole(role);
-
-            var result = _developer.CanRemovePoints(user, "", 3);
-            Assert.That(result, Is.False);
+            var result = _git.PostCommit("test");
+            Assert.That(result, Is.EqualTo("Posted test"));
         }
 
     }
